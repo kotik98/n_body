@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const double G = 1;
+const double G = 1.;
 
 class Ball : public GLBall {
 protected:
@@ -30,13 +30,17 @@ public:
     }
 
     void interact(double& dt, Ball& curr){
-        double F = G * this->mass * curr.mass / (pow((this->getX() - curr.getX()), 2) + pow((this->getY() - curr.getY()), 2));
-        double ax = (curr.getX() - this->getX()) / this->mass * F;
-        double ay = (curr.getY() - this->getY()) / this->mass * F;
+        double r2 = (pow((this->getX() - curr.getX()), 2) + pow((this->getY() - curr.getY()), 2));
+        if (r2 < 4){
+            return;
+        }
+        double F = G * this->mass * curr.mass / r2;
+        double ax = (curr.getX() - this->getX()) / sqrt(r2) / this->mass * F;
+        double ay = (curr.getY() - this->getY()) / sqrt(r2) / this->mass * F;
         vx += ax * dt;
         vy += ay * dt;
-        ax = (-curr.getX() + this->getX()) / curr.mass * F;
-        ay = (-curr.getY() + this->getY()) / curr.mass * F;
+        ax = (-curr.getX() + this->getX()) / sqrt(r2) / curr.mass * F;
+        ay = (-curr.getY() + this->getY()) / sqrt(r2) / curr.mass * F;
         curr.vx += ax * dt;
         curr.vy += ay * dt;
     }
@@ -68,7 +72,7 @@ public:
 
     void doTimeStep() override {
         int i = 0;
-        double t = 0.01;
+        double t = 0.1;
         for(auto& b  : bodies) {
             b.move(t, bodies, i);
             i++;
@@ -76,8 +80,20 @@ public:
     }
 
     void initScene() {
-        bodies.push_back(Ball(100, 0, 0, 100, 1));
-        bodies.push_back(Ball(0, 0, 0, 0, 10000));
+/*        int n, x, y, vx, vy, m;
+        cin >> n;
+        for (int i = 0; i < n; i++) {
+            cin >> x >> y >> vx >> vy >> m;
+            bodies.push_back(Ball(x, y, vx, vy, m));
+        }*/
+
+        // круг
+        //bodies.push_back(Ball(0, 0, 0, 0, 1000));
+        //bodies.push_back(Ball(10, 0, 0, 10, 1));
+
+        // качели
+        bodies.push_back(Ball(0, 0, 0, 0, 100));
+        bodies.push_back(Ball(10, 0, 0, 0, 1));
     }
 };
 
