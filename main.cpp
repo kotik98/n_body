@@ -80,20 +80,20 @@ public:
     }
 
     void initScene() {
-/*        int n, x, y, vx, vy, m;
+        int n, x, y, vx, vy, m;
         cin >> n;
         for (int i = 0; i < n; i++) {
             cin >> x >> y >> vx >> vy >> m;
             bodies.push_back(Ball(x, y, vx, vy, m));
-        }*/
+        }
 
         // круг
         //bodies.push_back(Ball(0, 0, 0, 0, 1000));
         //bodies.push_back(Ball(10, 0, 0, 10, 1));
 
         // качели
-        bodies.push_back(Ball(0, 0, 0, 0, 100));
-        bodies.push_back(Ball(10, 0, 0, 0, 1));
+        //bodies.push_back(Ball(0, 0, 0, 0, 100));
+        //bodies.push_back(Ball(10, 0, 0, 0, 1));
     }
 };
 
